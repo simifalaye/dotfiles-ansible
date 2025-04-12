@@ -1,0 +1,21 @@
+# vim: filetype=yaml.ansible
+
+- name: Get currently installed zsh path
+  ansible.builtin.command: "which zsh"
+  register: zsh_path
+  ignore_errors: true
+  changed_when: false
+
+- name: Set default shell to zsh if not set or not using the latest zsh
+  become: true
+  ansible.builtin.shell: chsh -s "$(which zsh)" "{{ ansible_env.USER }}"
+  register: chsh_result
+  when:
+    - zsh_path.stdout != ""
+    - ansible_user_shell != zsh_path.stdout
+  changed_when: "chsh_result.rc == 0"
+
+- name: Install shell dotfiles
+  tags: [dots, sh-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

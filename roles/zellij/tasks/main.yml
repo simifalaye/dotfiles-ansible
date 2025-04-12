@@ -1,0 +1,13 @@
+# vim: filetype=yaml.ansible
+
+- name: Install zellij
+  tags: [pkgs]
+  community.general.homebrew:
+    name: zellij
+    state: present
+  notify: "zellij_installed"
+
+- name: Install zellij dotfiles
+  tags: [dots, zellij-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

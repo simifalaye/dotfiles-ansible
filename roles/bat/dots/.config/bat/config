@@ -1,0 +1,2 @@
+# Never wrap and let the pager do its job.
+--wrap=never

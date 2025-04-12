@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+- name: Install calc
+  tags: [pkgs]
+  community.general.homebrew:
+    name: calc
+    state: present
+
+- name: Install calc dotfiles
+  tags: [dots, calc-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

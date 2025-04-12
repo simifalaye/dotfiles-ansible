@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+- name: Install fzf
+  tags: [pkgs]
+  community.general.homebrew:
+    name: fzf
+    state: present
+
+- name: Install fzf dotfiles
+  tags: [dots, fzf-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

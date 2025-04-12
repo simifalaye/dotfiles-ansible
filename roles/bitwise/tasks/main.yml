@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install bitwise
+  tags: [pkgs]
+  community.general.homebrew:
+    name: bitwise
+    state: present

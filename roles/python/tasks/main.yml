@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+- name: Install python
+  tags: [pkgs]
+  community.general.homebrew:
+    name: python
+    state: present
+
+- name: Install python dotfiles
+  tags: [dots, python-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

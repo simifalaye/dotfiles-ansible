@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install fd (better find)
+  tags: [pkgs]
+  community.general.homebrew:
+    name: fd
+    state: present

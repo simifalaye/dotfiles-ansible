@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+- name: Install bat
+  tags: [pkgs]
+  community.general.homebrew:
+    name: bat
+    state: present
+
+- name: Install bat dotfiles
+  tags: [dots, bat-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

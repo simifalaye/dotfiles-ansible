@@ -1,0 +1,21 @@
+# vim: filetype=yaml.ansible
+
+- name: Install wslu only on WSL machines
+  become: true
+  tags: [pkgs]
+  when: >
+    (ansible_facts['ansible_distribution'] in ['Ubuntu', 'Debian']) and
+    ('microsoft' in ansible_facts['ansible_kernel'] | lower or
+     'microsoft' in ansible_facts['ansible_proc_version'] | default('') | lower)
+  block:
+    - name: Install wslu PPA
+      ansible.builtin.apt_repository:
+        repo: 'ppa:wslutilities/wslu'
+        state: present
+    - name: Update repositories cache
+      ansible.builtin.apt:
+        update_cache: true
+    - name: Install wslu
+      ansible.builtin.apt:
+        name: wslu
+        state: present

@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+- name: Install eza
+  tags: [pkgs]
+  community.general.homebrew:
+    name: eza
+    state: present
+
+- name: Install eza dotfiles
+  tags: [dots, eza-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

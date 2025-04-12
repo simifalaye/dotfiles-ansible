@@ -1,0 +1,25 @@
+# vim: filetype=yaml.ansible
+
+- name: Install neovim
+  tags: [pkgs]
+  community.general.homebrew:
+    name: neovim
+    state: present
+
+- name: Install neovim for nodejs
+  tags: [pkgs]
+  become: true
+  community.general.npm:
+    name: neovim
+    global: true
+    state: present
+
+- name: Install pynvim with pip
+  ansible.builtin.pip:
+    name: pynvim
+    state: present
+
+- name: Install neovim dotfiles
+  tags: [dots, neovim-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

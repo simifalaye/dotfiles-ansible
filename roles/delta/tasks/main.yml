@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+- name: Install delta for git
+  tags: [pkgs]
+  community.general.homebrew:
+    name: git-delta
+    state: present
+
+- name: Install delta dotfiles
+  tags: [dots, delta-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

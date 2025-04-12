@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+- name: Install nodejs
+  tags: [pkgs]
+  community.general.homebrew:
+    name: node
+    state: present
+
+- name: Install node dotfiles
+  tags: [dots, node-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

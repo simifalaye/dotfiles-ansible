@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install atool
+  tags: [pkgs]
+  community.general.homebrew:
+    name: atool
+    state: present

@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+- name: Install trash
+  tags: [pkgs]
+  community.general.homebrew:
+    name: trash
+    state: present
+
+- name: Install trash dotfiles
+  tags: [dots, trash-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

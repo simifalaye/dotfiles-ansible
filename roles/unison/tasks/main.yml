@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install unison
+  tags: [pkgs]
+  community.general.homebrew:
+    name: unison
+    state: present

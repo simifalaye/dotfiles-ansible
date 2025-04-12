@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+- name: Install elinks
+  tags: [pkgs]
+  community.general.homebrew:
+    name: felinks
+    state: present
+
+- name: Install elinks dotfiles
+  tags: [dots, elinks-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

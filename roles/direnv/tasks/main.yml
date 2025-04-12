@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+- name: Install direnv
+  tags: [pkgs]
+  community.general.homebrew:
+    name: direnv
+    state: present
+
+- name: Install direnv dotfiles
+  tags: [dots, direnv-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

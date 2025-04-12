@@ -1,0 +1,32 @@
+# vim: filetype=yaml.ansible
+
+- name: Install Homebrew on macOS (Intel)
+  tags: [pkgs]
+  shell: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  args:
+    creates: /usr/local/bin/brew
+  when: ansible_facts['system'] == "Darwin" and ansible_facts['architecture'] == "x86_64"
+
+- name: Install Homebrew on macOS (Apple Silicon)
+  tags: [pkgs]
+  shell: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  args:
+    creates: /opt/homebrew/bin/brew
+  when: ansible_facts['system'] == "Darwin" and ansible_facts['architecture'] == "arm64"
+
+- name: Install Homebrew on Linux
+  tags: [pkgs]
+  shell: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  args:
+    creates: /home/linuxbrew/.linuxbrew/bin/brew
+  when: ansible_facts['system'] != "Darwin"
+
+- name: Update Homebrew
+  community.general.homebrew:
+    update_homebrew: true
+    upgrade_all: true
+
+- name: Install homebrew dotfiles
+  tags: [dots, homebrew-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

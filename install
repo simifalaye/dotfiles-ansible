@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# Deploys ansible machine
+
+#-
+#  Main
+#-
+
+# Prompt sudo so we don't have to ask-become-pass
+sudo echo ""
+
+# Run Ansible
+ansible-playbook -i ./hosts ./local-dev-env.yml "$@"

@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+- name: Install lazygit
+  tags: [pkgs]
+  community.general.homebrew:
+    name: lazygit
+    state: present
+
+- name: Install lazygit dotfiles
+  tags: [dots, lazygit-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

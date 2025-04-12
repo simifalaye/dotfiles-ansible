@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install htop
+  tags: [pkgs]
+  community.general.homebrew:
+    name: htop
+    state: present

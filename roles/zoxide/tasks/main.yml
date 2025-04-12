@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+- name: Install zoxide
+  tags: [pkgs]
+  community.general.homebrew:
+    name: zoxide
+    state: present
+
+- name: Install zoxide dotfiles
+  tags: [dots, zoxide-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"
