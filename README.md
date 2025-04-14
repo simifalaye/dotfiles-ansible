@@ -22,7 +22,7 @@
 # Install
 
 ```sh
-source <(curl -L https://raw.githubusercontent.com/simifalaye/dotfiles/main/bootstrap.sh)
+source <(curl -L https://raw.githubusercontent.com/simifalaye/dotfiles-ansible/main/bootstrap.sh) -s <ssh_email1> <ssh_keyname1> ...
 ./install
 ```
 

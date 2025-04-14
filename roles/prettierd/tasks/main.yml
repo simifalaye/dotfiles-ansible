@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install Prettierd
+  tags: [pkgs]
+  community.general.homebrew:
+    name: prettierd
+    state: present

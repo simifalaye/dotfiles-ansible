@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Deploys ansible machine
 
@@ -6,8 +6,27 @@
 #  Main
 #-
 
-# Prompt sudo so we don't have to ask-become-pass
-sudo echo ""
+set -euo pipefail
 
-# Run Ansible
-ansible-playbook -i ./hosts ./local-dev-env.yml "$@"
+# Load homebrew into shell environment
+if test -r /opt/homebrew/bin/brew; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif test -r /usr/local/bin/brew; then
+  eval "$(/usr/local/bin/brew shellenv)"
+elif test -r /home/linuxbrew/.linuxbrew/bin/brew; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+else
+  echo "Homebrew install not found" && exit 1
+fi
+
+# Prompt sudo so we don't have to ask-become-pass
+sudo -v
+
+# Run Ansible with or without TTY wrapper for Darwin
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  echo "Running on macOS – using script to preserve sudo TTY"
+  script -q /dev/null ansible-playbook -i ./hosts local-dev-env.yml "$@"
+else
+  echo "Running on Linux"
+  ansible-playbook -i ./hosts local-dev-env.yml "$@"
+fi

@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install cpplint
+  tags: [pkgs]
+  community.general.homebrew:
+    name: cpplint
+    state: present

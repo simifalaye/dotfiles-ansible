@@ -25,7 +25,7 @@
   tags: [clean]
   ansible.builtin.shell:
     cmd: |
-      find {{ ansible_env.HOME }} -maxdepth 1 -xtype l -delete
+      find {{ ansible_env.HOME }} -maxdepth 1 -type l ! -exec test -e {} \; -exec rm {} \;
     executable: /bin/bash
   changed_when: false
 
@@ -33,7 +33,9 @@
   tags: [clean]
   ansible.builtin.shell:
     cmd: |
-      find {{ item }} -xtype l -delete
+      if [ -d "{{ item }}" ]; then
+        find "{{ item }}" -type l ! -exec test -e {} \; -exec rm -f {} \;
+      fi
     executable: /bin/bash
   changed_when: false
   loop:

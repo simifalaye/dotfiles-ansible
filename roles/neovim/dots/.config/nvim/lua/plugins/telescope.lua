@@ -1,6 +1,3 @@
-local actions = reqcall("telescope.actions") ---@module 'telescope.actions'
-local themes = reqcall("telescope.themes") ---@module 'telescope.themes'
-
 local find_files
 find_files = function(opts, no_ignore)
   opts = opts or {}
@@ -25,8 +22,6 @@ find_files = function(opts, no_ignore)
     require("telescope.builtin").find_files(opts)
   end
 end
-
-vim.keymap.set("n", "<leader>t", find_files)
 
 return {
   {
@@ -128,90 +123,91 @@ return {
         desc = "Open Quickfix Picker",
       },
     },
-    opts = {
-      defaults = {
-        prompt_prefix = " ",
-        selection_caret = " ",
-        path_display = { "truncate" },
-        layout_strategy = "flex",
-        layout_config = {
-          horizontal = { prompt_position = "top", preview_width = 0.55 },
-          vertical = { prompt_position = "top", mirror = false },
-          flex = { prompt_position = "top", flip_columns = 150 },
-          width = 0.87,
-          height = 0.80,
-        },
-        sorting_strategy = "ascending",
-        preview = {
-          treesitter = {
-            enable = true,
-            disable = {
-              "html", -- TODO: Check if still broken
-            },
-          },
-        },
-        mappings = {
-          i = {
-            ["<M-q>"] = false,
-            ["<M-f>"] = false,
-            ["<M-k>"] = false,
-            ["<Esc>"] = actions.close,
-            ["<C-c>"] = actions.close,
-            ["<C-n>"] = actions.move_selection_next,
-            ["<C-p>"] = actions.move_selection_previous,
-            ["<C-s>"] = actions.select_horizontal,
-            ["<C-v>"] = actions.select_vertical,
-            ["<C-q>"] = function(...)
-              actions.smart_send_to_qflist(...)
-              actions.open_qflist(...)
-            end,
-            ["<Down>"] = actions.cycle_history_next,
-            ["<Up>"] = actions.cycle_history_prev,
-            ["<CR>"] = actions.select_default,
-          },
-        },
-        -- open files in the first window that is an actual file.
-        -- use the current window if no other window is available.
-        get_selection_window = function()
-          local wins = vim.api.nvim_list_wins()
-          table.insert(wins, 1, vim.api.nvim_get_current_win())
-          for _, win in ipairs(wins) do
-            local buf = vim.api.nvim_win_get_buf(win)
-            if vim.bo[buf].buftype == "" then
-              return win
-            end
-          end
-          return 0
-        end,
-      },
-      extensions = {
-        fzf = {
-          fuzzy = true, -- false will only do exact matching
-          override_generic_sorter = true, -- override the generic sorter
-          override_file_sorter = true, -- override the file sorter
-          case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-          -- the default case_mode is "smart_case"
-        },
-        ["ui-select"] = {
-          themes.get_dropdown(),
-        },
-      },
-      pickers = {
-        find_files = {
-          hidden = true,
-        },
-        buffers = {
-          mappings = {
-            i = {
-              ["<C-x>"] = actions.delete_buffer,
-            },
-          },
-        },
-      },
-    },
     config = function(_, opts)
       local telescope = require("telescope")
-      telescope.setup(opts)
+      local actions = require("telescope.actions")
+      local themes = require("telescope.themes")
+      telescope.setup({
+        defaults = {
+          prompt_prefix = " ",
+          selection_caret = " ",
+          path_display = { "truncate" },
+          layout_strategy = "flex",
+          layout_config = {
+            horizontal = { prompt_position = "top", preview_width = 0.55 },
+            vertical = { prompt_position = "top", mirror = false },
+            flex = { prompt_position = "top", flip_columns = 150 },
+            width = 0.87,
+            height = 0.80,
+          },
+          sorting_strategy = "ascending",
+          preview = {
+            treesitter = {
+              enable = true,
+              disable = {
+                "html", -- TODO: Check if still broken
+              },
+            },
+          },
+          mappings = {
+            i = {
+              ["<M-q>"] = false,
+              ["<M-f>"] = false,
+              ["<M-k>"] = false,
+              ["<Esc>"] = actions.close,
+              ["<C-c>"] = actions.close,
+              ["<C-n>"] = actions.move_selection_next,
+              ["<C-p>"] = actions.move_selection_previous,
+              ["<C-s>"] = actions.select_horizontal,
+              ["<C-v>"] = actions.select_vertical,
+              ["<C-q>"] = function(...)
+                actions.smart_send_to_qflist(...)
+                actions.open_qflist(...)
+              end,
+              ["<Down>"] = actions.cycle_history_next,
+              ["<Up>"] = actions.cycle_history_prev,
+              ["<CR>"] = actions.select_default,
+            },
+          },
+          -- open files in the first window that is an actual file.
+          -- use the current window if no other window is available.
+          get_selection_window = function()
+            local wins = vim.api.nvim_list_wins()
+            table.insert(wins, 1, vim.api.nvim_get_current_win())
+            for _, win in ipairs(wins) do
+              local buf = vim.api.nvim_win_get_buf(win)
+              if vim.bo[buf].buftype == "" then
+                return win
+              end
+            end
+            return 0
+          end,
+        },
+        extensions = {
+          fzf = {
+            fuzzy = true, -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true, -- override the file sorter
+            case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+            -- the default case_mode is "smart_case"
+          },
+          ["ui-select"] = {
+            themes.get_dropdown(),
+          },
+        },
+        pickers = {
+          find_files = {
+            hidden = true,
+          },
+          buffers = {
+            mappings = {
+              i = {
+                ["<C-x>"] = actions.delete_buffer,
+              },
+            },
+          },
+        },
+      })
 
       pcall(telescope.load_extension, "fzf")
       pcall(telescope.load_extension, "ui-select")

@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install Lua Language Server
+  tags: [pkgs]
+  community.general.homebrew:
+    name: lua-language-server
+    state: present

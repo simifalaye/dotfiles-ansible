@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install Marksman Language Server
+  tags: [pkgs]
+  community.general.homebrew:
+    name: marksman
+    state: present

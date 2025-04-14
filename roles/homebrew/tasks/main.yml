@@ -2,29 +2,57 @@
 
 - name: Install Homebrew on macOS (Intel)
   tags: [pkgs]
-  shell: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  ansible.builtin.shell:
+    cmd: |
+      NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      eval "$(/usr/local/bin/brew shellenv)"
   args:
     creates: /usr/local/bin/brew
   when: ansible_facts['system'] == "Darwin" and ansible_facts['architecture'] == "x86_64"
 
 - name: Install Homebrew on macOS (Apple Silicon)
   tags: [pkgs]
-  shell: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  ansible.builtin.shell:
+    cmd: |
+      NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      eval "$(/opt/homebrew/bin/brew shellenv)"
   args:
     creates: /opt/homebrew/bin/brew
   when: ansible_facts['system'] == "Darwin" and ansible_facts['architecture'] == "arm64"
 
 - name: Install Homebrew on Linux
   tags: [pkgs]
-  shell: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  ansible.builtin.shell:
+    cmd: |
+      NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
   args:
     creates: /home/linuxbrew/.linuxbrew/bin/brew
   when: ansible_facts['system'] != "Darwin"
 
-- name: Update Homebrew
+- name: Check last brew update timestamp
+  ansible.builtin.stat:
+    path: /tmp/.brew-last-update
+  register: brew_update_timestamp
+
+- name: Set fact if brew update is due (older than 24 hours)
+  ansible.builtin.set_fact:
+    brew_update_due: true
+  when: >
+    not brew_update_timestamp.stat.exists or
+    (ansible_date_time.epoch | int) - (brew_update_timestamp.stat.mtime | default(0)) > 86400
+
+- name: Update & upgrade Homebrew (if due)
   community.general.homebrew:
     update_homebrew: true
     upgrade_all: true
+  when: brew_update_due | default(false)
+
+- name: Touch homebrew update timestamp file
+  ansible.builtin.file:
+    path: /tmp/.brew-last-update
+    state: touch
+  when: brew_update_due | default(false)
 
 - name: Install homebrew dotfiles
   tags: [dots, homebrew-dots]

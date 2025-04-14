@@ -6,18 +6,16 @@
     name: gh
     state: present
 
-- name: Get GitHub CLI extension list
-  tags: [pkgs]
-  ansible.builtin.command: gh extension list
-  register: gh_extension_list
-  changed_when: false
-  failed_when: false
-
-- name: Install github dash
-  tags: [pkgs]
-  when: '"dlvhdr/gh-dash" not in gh_extension_list.stdout'
-  ansible.builtin.shell:
-    cmd: |
-      /usr/local/bin/gh extension install dlvhdr/gh-dash
-  register: dash_install_result
-  changed_when: "dash_install_result.rc == 0"
+#- name: Get GitHub CLI extension list
+#  tags: [pkgs]
+#  ansible.builtin.command: gh extension list
+#  register: gh_extension_list
+#  changed_when: false
+#  failed_when: false
+#
+#- name: Install github dash
+#  tags: [pkgs]
+#  when: '"dlvhdr/gh-dash" not in gh_extension_list.stdout'
+#  ansible.builtin.command: gh extension install dlvhdr/gh-dash
+#  register: dash_install_result
+#  changed_when: dash_install_result.rc == 0

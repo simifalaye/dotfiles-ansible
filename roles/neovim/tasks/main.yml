@@ -14,11 +14,6 @@
     global: true
     state: present
 
-- name: Install pynvim with pip
-  ansible.builtin.pip:
-    name: pynvim
-    state: present
-
 - name: Install neovim dotfiles
   tags: [dots, neovim-dots]
   link_dotfiles:

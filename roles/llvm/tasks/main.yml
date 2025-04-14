@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install llvm
+  tags: [pkgs]
+  community.general.homebrew:
+    name: llvm
+    state: present

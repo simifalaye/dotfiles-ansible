@@ -1,12 +1,12 @@
 # vim: filetype=yaml.ansible
 
-- name: Install zellij
+- name: Install Stylua
   tags: [pkgs]
   community.general.homebrew:
-    name: zellij
+    name: stylua
     state: present
 
-- name: Install zellij dotfiles
-  tags: [dots, zellij-dots]
+- name: Install stylua dotfiles
+  tags: [dots]
   link_dotfiles:
     src_dir: "{{ role_path }}/dots"

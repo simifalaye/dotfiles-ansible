@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install Ansible Linter
+  tags: [pkgs]
+  community.general.homebrew:
+    name: ansible-lint
+    state: present

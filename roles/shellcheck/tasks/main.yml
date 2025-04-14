@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install Shellcheck
+  tags: [pkgs]
+  community.general.homebrew:
+    name: shellcheck
+    state: present

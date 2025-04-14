@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install Pyright
+  tags: [pkgs]
+  community.general.homebrew:
+    name: pyright
+    state: present

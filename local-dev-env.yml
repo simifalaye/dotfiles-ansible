@@ -3,16 +3,25 @@
 - name: Set up local development environment
   hosts: local
   roles:
+    # Pre-reqs
     - {role: system, tags: ['system', 'bootstrap']}
+    - {role: shell, tags: ['shell', 'bootstrap']}
     - {role: homebrew, tags: ['homebrew', 'bootstrap']}
     - {role: node, tags: ['node', 'bootstrap']}
     - {role: python, tags: ['python', 'bootstrap']}
-    - {role: sh, tags: ['sh', 'bootstrap']}
+    - {role: rust, tags: ['rust', 'bootstrap']}
+    # Apps
+    - {role: ansible-lint, tags: ['ansible-lint']}
+    - {role: ansible-ls, tags: ['ansible-ls']}
     - {role: atool, tags: ['atool']}
+    - {role: bash-ls, tags: ['bash-ls']}
     - {role: bat, tags: ['bat']}
     - {role: bitwise, tags: ['bitwise']}
+    - {role: black, tags: ['black']}
     - {role: calc, tags: ['calc']}
     - {role: cheat, tags: ['cheat']}
+    - {role: clang-format, tags: ['clang-format']}
+    - {role: cpplint, tags: ['cpplint']}
     - {role: delta, tags: ['delta']}
     - {role: editor-tools, tags: ['editor-tools']}
     - {role: elinks, tags: ['elinks']}
@@ -22,17 +31,24 @@
     - {role: git, tags: ['git', 'bootstrap']}
     - {role: github, tags: ['github']}
     - {role: htop, tags: ['htop']}
+    - {role: json-ls, tags: ['json-ls']}
     - {role: lazygit, tags: ['lazygit']}
-    - {role: misc-dots, tags: ['misc-dots']}
+    - {role: llvm, tags: ['llvm']}
+    - {role: lua-ls, tags: ['lua-ls']}
+    - {role: marksman-ls, tags: ['marksman-ls']}
     - {role: neovim, tags: ['neovim']}
+    - {role: prettierd, tags: ['prettierd']}
+    - {role: pyright, tags: ['pyright']}
     - {role: ripgrep, tags: ['ripgrep']}
     - {role: rsync, tags: ['rsync']}
+    - {role: shellcheck, tags: ['shellcheck']}
+    - {role: shfmt, tags: ['shfmt']}
+    - {role: stylua, tags: ['stylua']}
     - {role: tig, tags: ['tig']}
     - {role: tinty, tags: ['tinty']}
     - {role: tmux, tags: ['tmux']}
     - {role: trash, tags: ['trash']}
     - {role: unison, tags: ['unison']}
-    - {role: wslopen, tags: ['wslopen']}
-    - {role: wslu, tags: ['wslu']}
+    - {role: yaml-ls, tags: ['yaml-ls']}
     - {role: zellij, tags: ['zellij']}
     - {role: zoxide, tags: ['zoxide']}

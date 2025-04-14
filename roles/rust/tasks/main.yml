@@ -1,0 +1,12 @@
+# vim: filetype=yaml.ansible
+
+# - name: Install Rust Analyzer
+#   tags: [pkgs]
+#   community.general.homebrew:
+#     name: rust-analyzer
+#     state: present
+#
+# - name: Install ripgrep dotfiles
+#   tags: [dots, ripgrep-dots]
+#   link_dotfiles:
+#     src_dir: "{{ role_path }}/dots"

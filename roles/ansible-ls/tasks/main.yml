@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install Ansible Language Server
+  tags: [pkgs]
+  community.general.homebrew:
+    name: ansible-language-server
+    state: present

@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install Black Python Formatter
+  tags: [pkgs]
+  community.general.homebrew:
+    name: black
+    state: present

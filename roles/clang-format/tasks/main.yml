@@ -1,0 +1,7 @@
+# vim: filetype=yaml.ansible
+
+- name: Install Clang Formatter
+  tags: [pkgs]
+  community.general.homebrew:
+    name: clang-format
+    state: present

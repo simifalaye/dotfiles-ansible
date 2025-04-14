@@ -1,8 +1,8 @@
 # vim: filetype=yaml.ansible
 
 - name: Install cheat (cht.sh)
-  become: true
   tags: [pkgs]
+  become: true
   ansible.builtin.get_url:
     url: https://cht.sh/:cht.sh
     dest: /usr/local/bin/cht.sh
