@@ -10,7 +10,9 @@
     - {role: node, tags: ['node', 'bootstrap']}
     - {role: python, tags: ['python', 'bootstrap']}
     - {role: rust, tags: ['rust', 'bootstrap']}
+    - {role: fonts, tags: ['fonts', 'bootstrap']}
     # Apps
+    - {role: alacritty, tags: ['alacritty']}
     - {role: ansible-lint, tags: ['ansible-lint']}
     - {role: ansible-ls, tags: ['ansible-ls']}
     - {role: atool, tags: ['atool']}

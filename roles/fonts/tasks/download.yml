@@ -1,0 +1,26 @@
+# vim: filetype=yaml.ansible
+
+- name: Set font install path based on OS
+  ansible.builtin.set_fact:
+    font_dest_dir: >-
+      {{ ansible_env.HOME }}/{{ 'Library/Fonts' if ansible_facts['os_family'] == 'Darwin' else '.local/share/fonts' }}
+
+- name: Create directory {{ font_name }}
+  ansible.builtin.file:
+    path: "{{ font_dest_dir }}/{{ font_name }}"
+    state: directory
+    mode: '0755'
+
+- name: Installing {{ font_name }}
+  ansible.builtin.unarchive:
+    src: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ font_name }}.zip"
+    dest: "{{ font_dest_dir }}/{{ font_name }}"
+    creates: "{{ font_dest_dir }}/{{ font_name }}/done"
+    remote_src: true
+  notify: Update font cache
+
+- name: Installed {{ font_name }}
+  ansible.builtin.copy:
+    dest: "{{ font_dest_dir }}/{{ font_name }}/done"
+    content: ""
+    mode: '0644'

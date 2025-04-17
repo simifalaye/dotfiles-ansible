@@ -40,11 +40,11 @@ fi
 if [[ -n "${valid_term}" && (-n "${valid_remote}" || -n "${valid_local}") ]]; then
   # Start the tmux server, this is only useful if a session is created in the tmux config.
   # Otherwise the server will exit immediately (unless exit-empty is turned off).
-  command tmux -f "$TMUX_CONFIG" start-server
+  command tmux start-server
 
   # Create the default session if no session has been defined in tmux.conf.
   if ! tmux has-session 2>/dev/null; then
-    command tmux -f "$TMUX_CONFIG" new-session -ds "$TMUX_DEFAULT_SESSION"
+    command tmux new-session -ds "$TMUX_DEFAULT_SESSION"
   fi
 
   # Perform the action defined by the selected autostart mode.
@@ -63,7 +63,7 @@ if [[ -n "${valid_term}" && (-n "${valid_remote}" || -n "${valid_local}") ]]; th
 fi
 
 # Convenience aliases
-alias tmux='tmux -2 -f ${TMUX_CONFIG}'
+alias tmux='tmux -2'
 alias tl="tmux ls"
 
 # Credit: https://github.com/akinsho/dotfiles/blob/main/zsh/scripts/fzf.sh

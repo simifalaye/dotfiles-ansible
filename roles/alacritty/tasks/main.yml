@@ -1,0 +1,13 @@
+# vim: filetype=yaml.ansible
+
+- name: Install alacritty (macOS)
+  tags: [pkgs]
+  community.general.homebrew:
+    name: alacritty
+    state: present
+  when: ansible_facts['system'] == "Darwin"
+
+- name: Install alacritty dotfiles
+  tags: [dots, alacritty-dots]
+  link_dotfiles:
+    src_dir: "{{ role_path }}/dots"

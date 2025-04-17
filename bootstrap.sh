@@ -4,6 +4,8 @@
 # Constants
 REPO_NAME="simifalaye/dotfiles-ansible"
 CLONE_DIR="${HOME}/.dotfiles"
+GIT_CONFIG_DIR="${HOME}/.config/git"
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -15,8 +17,9 @@ NC='\033[0m' # No Color
 #
 
 usage() {
-  echo "usage: $0 -s <email> <keyname> [-s <email> <keyname> ...]"
-  echo "  -s,--ssh-key <email> <keyname> => Generate an ssh key"
+  echo "usage: $0 -g <email> -s <email> [keyname] [-s <email> [keyname] ...]"
+  echo "  -g,--git-email <email> => Override the git email in the config"
+  echo "  -s,--ssh-key <email> => Generate an ssh key"
   echo "  -h,--help => Display help"
   abort ""
 }
@@ -38,17 +41,27 @@ abort() {
 set -euo pipefail
 
 # Reset all variables that might be set
-ssh_keys=()
+SSH_KEYS=()
+GIT_EMAIL=""
 
 while [[ $# -gt 0 ]]; do
   case $1 in
+  -g | --git-email)
+    if [ -n "$2" ]; then
+      GIT_EMAIL=$2
+      shift
+    else
+      abort "-g|--git-email needs <email>"
+    fi
+    ;;
   -s | --ssh-key)
-    if [[ $# -lt 3 ]]; then
+    if [[ $# -lt 2 ]]; then
       abort "-s|--ssh-key needs <email> <keyname>"
     fi
     email="$2"
-    keyname="$3"
-    ssh_keys+=("$email:$keyname")
+    keyname=""
+    [ $# -eq 3 ] && keyname="$3"
+    SSH_KEYS+=("$email:$keyname")
     shift 3
     ;;
   -h | --help)
@@ -129,30 +142,40 @@ step "Installing ansible dependencies"
 ansible-galaxy install -r requirements.yml
 success "Installed ansible dependencies"
 
+# Override git email
+if [ -n "$GIT_EMAIL" ]; then
+  step "Overriding default git email"
+  mkdir -p "${GIT_CONFIG_DIR}"
+  git_override_file="${GIT_CONFIG_DIR}/config.local"
+  touch "${git_override_file}"
+  cat <<EOF >> "${git_override_file}"
+
+  [user]
+  email = "$GIT_EMAIL"
+EOF
+fi
+
 # Generate SSH key pairs
-if [[ ${#ssh_keys[@]} -ne 0 ]]; then
+if [[ ${#SSH_KEYS[@]} -ne 0 ]]; then
   step "Generating ssh keys"
   # Start ssh-agent
   eval "$(ssh-agent -s)"
 
   # Create ssh dir if it doesn't exist
   ssh_dir="$HOME/.ssh"
-  ssh_config="$ssh_dir/config"
   mkdir -p "$ssh_dir"
   chmod 700 "$ssh_dir"
 
-  # Backup existing SSH config
-  if [[ -f "$ssh_config" && ! -f "$ssh_config.bak" ]]; then
-    cp "$ssh_config" "$ssh_config.bak"
-  fi
-
   # Generate keys
-  for entry in "${ssh_keys[@]}"; do
+  keypath="$ssh_dir/id_ed25519"
+  for entry in "${SSH_KEYS[@]}"; do
     email="${entry%%:*}"
     keyname="${entry##*:}"
-    keypath="$ssh_dir/id_ed25519_$keyname"
+    if [ -n "$keyname" ]; then
+      keypath="${keypath}_${keyname}"
+    fi
 
-    sub_step "Generating SSH key: $keyname (email: $email)"
+    sub_step "Generating SSH key $keyname (email: $email)"
     ssh-keygen -t ed25519 -C "$email" -f "$keypath" -N ""
     ssh-add "$keypath"
 
@@ -162,30 +185,14 @@ if [[ ${#ssh_keys[@]} -ne 0 ]]; then
     echo
     cat "${keypath}.pub"
     echo
-    echo "Copy this key to GitHub (https://github.com/settings/keys)"
+    echo "If needed, copy this key to GitHub (https://github.com/settings/keys)"
     echo "Press any key when you're done"
     read -r -n 1
     echo
-
-    gh_host="github-$keyname"
-    read -rp "Is this the primary ssh key? [y/n] " pri_key
-    if [[ "$pri_key" =~ ^[Yy]$ ]]; then
-      gh_host="github.com"
-    fi
-      echo "✅ Setting $keyname as default identity for github.com"
-      cat <<EOF >> "$ssh_config"
-
-Host $gh_host
-  HostName github.com
-  User git
-  IdentityFile $keypath
-EOF
   done
   success "SSH keys created, added to agent, and config updated.\n\
     To clone with alt identities, use: git@github-alt1:username/repo.git"
 fi
-
-return
 
 # Clone the repository using SSH
 step "Cloning dotfiles repo"

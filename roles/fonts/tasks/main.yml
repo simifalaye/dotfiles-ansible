@@ -1,0 +1,15 @@
+# vim: filetype=yaml.ansible
+
+- name: Download Nerd Fonts
+  tags: [fonts]
+  ansible.builtin.include_tasks: download.yml
+  loop:
+    - FiraCode
+    - DejaVuSansMono
+    - JetBrainsMono
+    - FantasqueSansMono
+    - VictorMono
+    - SourceCodePro
+    - Hack
+  loop_control:
+    loop_var: font_name
