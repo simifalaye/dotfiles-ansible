@@ -16,14 +16,6 @@ NC='\033[0m' # No Color
 # Helper Functions
 #
 
-usage() {
-  echo "usage: $0 -g <email> -s <email> [keyname] [-s <email> [keyname] ...]"
-  echo "  -g,--git-email <email> => Override the git email in the config"
-  echo "  -s,--ssh-key <email> => Generate an ssh key"
-  echo "  -h,--help => Display help"
-  abort ""
-}
-
 step() { echo -e "${BLUE}==> $*${NC}"; }
 sub_step() { echo -e "${BLUE}=> $*${NC}"; }
 success() { echo -e "${GREEN}✔ $*${NC}"; }
@@ -33,12 +25,18 @@ abort() {
   error "$@"
   return 1
 }
+usage() {
+  echo "usage: $0 -g <email> -s <email> [keyname] [-s <email> [keyname] ...]"
+  echo "  -g,--git-email <email> => Override the git email in the config"
+  echo "  -s,--ssh-key <email> => Generate an ssh key"
+  echo "  -h,--help => Display help"
+  abort ""
+}
+
 
 #
 # Main
 #
-
-set -euo pipefail
 
 # Reset all variables that might be set
 SSH_KEYS=()
@@ -59,10 +57,13 @@ while [[ $# -gt 0 ]]; do
       abort "-s|--ssh-key needs <email> [keyname]"
     fi
     email="$2"
+    shift
     keyname=""
-    [ $# -eq 3 ] && keyname="$3"
+    if [ $# -eq 2 ]; then
+      keyname="$2"
+      shift
+    fi
     SSH_KEYS+=("$email:$keyname")
-    shift 3
     ;;
   -h | --help)
     usage
