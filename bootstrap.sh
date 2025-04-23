@@ -38,6 +38,8 @@ usage() {
 # Main
 #
 
+set -e
+
 # Reset all variables that might be set
 SSH_KEYS=()
 GIT_EMAIL=""
@@ -80,7 +82,7 @@ done
 step "Installing homebrew"
 if ! command -v brew >/dev/null; then
   sub_step "Installing Homebrew package manager"
-  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   if test -r /opt/homebrew/bin/brew; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
   elif test -r /usr/local/bin/brew; then
@@ -196,7 +198,11 @@ if [[ ${#SSH_KEYS[@]} -ne 0 ]]; then
 fi
 
 # Clone the repository using SSH
-step "Cloning dotfiles repo"
-git clone git@github.com:"${REPO_NAME}".git "${CLONE_DIR}"
+if ! test -d "${CLONE_DIR}"; then
+  step "Cloning dotfiles repo"
+  git clone git@github.com:"${REPO_NAME}".git "${CLONE_DIR}"
+  step "Cloned dotfiles repo"
+fi
+
+step "Switching to dotfiles directory"
 cd "${CLONE_DIR}" || return 1
-step "Cloned dotfiles repo"
