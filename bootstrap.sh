@@ -31,7 +31,7 @@ warn() { echo -e "${YELLOW}⚠ $*${NC}"; }
 error() { echo -e "${RED}✖ $*${NC}" >&2; }
 abort() {
   error "$@"
-  exit 1
+  return 1
 }
 
 #
@@ -56,7 +56,7 @@ while [[ $# -gt 0 ]]; do
     ;;
   -s | --ssh-key)
     if [[ $# -lt 2 ]]; then
-      abort "-s|--ssh-key needs <email> <keyname>"
+      abort "-s|--ssh-key needs <email> [keyname]"
     fi
     email="$2"
     keyname=""
@@ -167,20 +167,20 @@ if [[ ${#SSH_KEYS[@]} -ne 0 ]]; then
   chmod 700 "$ssh_dir"
 
   # Generate keys
-  keypath="$ssh_dir/id_ed25519"
+  keypath="${ssh_dir}/id_ed25519"
   for entry in "${SSH_KEYS[@]}"; do
     email="${entry%%:*}"
     keyname="${entry##*:}"
     if [ -n "$keyname" ]; then
-      keypath="${keypath}_${keyname}"
+      keypath="${ssh_dir}/${keyname}"
     fi
 
-    sub_step "Generating SSH key $keyname (email: $email)"
+    sub_step "Generating SSH key $keypath (email: $email)"
     ssh-keygen -t ed25519 -C "$email" -f "$keypath" -N ""
     ssh-add "$keypath"
 
     echo
-    echo "=== SSH Key: $keyname ==="
+    echo "=== SSH Key: $keypath ==="
     echo "Public Key:"
     echo
     cat "${keypath}.pub"
@@ -197,5 +197,5 @@ fi
 # Clone the repository using SSH
 step "Cloning dotfiles repo"
 git clone git@github.com:"${REPO_NAME}".git "${CLONE_DIR}"
-cd "${CLONE_DIR}" || exit 1
+cd "${CLONE_DIR}" || return 1
 step "Cloned dotfiles repo"
