@@ -29,7 +29,7 @@
     executable: /bin/bash
   changed_when: false
 
-- name: Clean dead symlinks in XDG_DIRS
+- name: Clean dead symlinks in XDG_DIRS recursively
   tags: [clean]
   ansible.builtin.shell:
     cmd: |

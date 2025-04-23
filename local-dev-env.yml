@@ -52,5 +52,4 @@
     - {role: trash, tags: ['trash']}
     - {role: unison, tags: ['unison']}
     - {role: yaml-ls, tags: ['yaml-ls']}
-    - {role: zellij, tags: ['zellij']}
     - {role: zoxide, tags: ['zoxide']}

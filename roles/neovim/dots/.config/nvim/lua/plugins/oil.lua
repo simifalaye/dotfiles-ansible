@@ -113,8 +113,8 @@ return {
           -- Custom
           ["Q"] = "q",
           ["q"] = "actions.close",
-          -- ["l"] = "actions.select",
-          -- ["h"] = "actions.parent",
+          ["l"] = "actions.select",
+          ["h"] = "actions.parent",
           ["gy"] = {
             mode = "n",
             buffer = true,

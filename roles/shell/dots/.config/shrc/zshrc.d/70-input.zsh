@@ -9,9 +9,9 @@
 
 [[ ${TERM} == dumb ]] && return
 
-#-
-#  Options
-#-
+#
+# Options
+#
 
 # Disable control flow (^S/^Q) even for non-interactive shells.
 setopt NO_FLOW_CONTROL
@@ -19,9 +19,9 @@ setopt NO_FLOW_CONTROL
 # Allow comments starting with `#` in the interactive shell.
 setopt INTERACTIVE_COMMENTS
 
-#-
-#  Keymaps
-#-
+#
+# Keymaps
+#
 
 # Use emacs mode (Ran into several issues with vi mode)
 bindkey -e

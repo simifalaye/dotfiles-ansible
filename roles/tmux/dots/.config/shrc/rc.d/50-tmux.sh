@@ -3,7 +3,7 @@
 # - remote  enable when starting zsh over a SSH connection.
 # - always  both of the above.
 # Set to any other value to disable.
-export TMUX_AUTOSTART="${TMUX_AUTOSTART-remote}"
+export TMUX_AUTOSTART="${TMUX_AUTOSTART-local}"
 
 # Define what to do when autostarting. Possible values are:
 # - background      do not prompt and run a regular shell.
@@ -16,15 +16,6 @@ export TMUX_AUTOSTART_MODE="${TMUX_AUTOSTART_MODE-prompt}"
 
 # The name of the default created session if none are defined in the tmux config.
 export TMUX_DEFAULT_SESSION="${TMUX_DEFAULT_SESSION-main}"
-
-# Figure out the TERM to use inside tmux.
-if [[ $(tput setb24 2>/dev/null) ]]; then
-  export TMUX_TERM="${TERM}"
-elif (( $(tput colors) >= 256 )); then
-  export TMUX_TERM='tmux-256color'
-else
-  export TMUX_TERM='tmux'
-fi
 
 # Autostart tmux and attach to a session, if enabled and not already in tmux.
 # Attempt to detect whether the terminal is started from within another application.

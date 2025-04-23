@@ -9,6 +9,9 @@ export ZDOTDIR="${HOME}"
 export ZDATADIR=${ZDATADIR:-${XDG_DATA_HOME:-$HOME/.local/share}/zsh} && mkdir -p ${ZDATADIR}
 export ZCACHEDIR=${ZCACHEDIR:-${XDG_CACHE_HOME:-$HOME/.cache}/zsh} && mkdir -p ${ZCACHEDIR}
 
+# Setup location to store plugins
+export ZPLUGDIR="${ZDATADIR}/plugins" && mkdir -p ${ZPLUGDIR}
+
 # Add your functions to your $fpath, so you can autoload them.
 fpath=(
   ${HOME}/.config/shrc/zshrc.d/functions

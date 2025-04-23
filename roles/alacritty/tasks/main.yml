@@ -11,3 +11,4 @@
   tags: [dots, alacritty-dots]
   link_dotfiles:
     src_dir: "{{ role_path }}/dots"
+  when: ansible_facts['system'] == "Darwin"
