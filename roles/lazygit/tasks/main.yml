@@ -10,7 +10,7 @@
     version_command: lazygit --version
     move_rules:
       - src_regex: lazygit
-        dst: "/usr/local/bin"
+        dst: "/usr/local/bin/lazygit"
   when: ansible_facts['system'] == "Linux"
 
 - name: Install lazygit (MacOS)

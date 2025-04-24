@@ -10,7 +10,7 @@
     version_command: tinty --version
     move_rules:
       - src_regex: tinty
-        dst: "/usr/local/bin"
+        dst: "/usr/local/bin/tinty"
   notify: "tinty_installed"
 
 - name: Install tinty dotfiles

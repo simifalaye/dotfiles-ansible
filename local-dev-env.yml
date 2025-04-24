@@ -21,7 +21,6 @@
     - {role: bat, tags: ['bat']}
     - {role: bitwise, tags: ['bitwise']}
     - {role: black, tags: ['black']}
-    - {role: btop, tags: ['btop']}
     - {role: calc, tags: ['calc']}
     - {role: cheat, tags: ['cheat']}
     - {role: clang-format, tags: ['clang-format']}
@@ -32,8 +31,8 @@
     - {role: eza, tags: ['eza']}
     - {role: fd, tags: ['fd']}
     - {role: fzf, tags: ['fzf']}
-    #- {role: github, tags: ['github']}
-    #- {role: htop, tags: ['htop']}
+    - {role: github, tags: ['github']}
+    - {role: htop, tags: ['htop']}
     - {role: json-ls, tags: ['json-ls']}
     - {role: lazygit, tags: ['lazygit']}
     - {role: lua-ls, tags: ['lua-ls']}
@@ -52,4 +51,4 @@
     - {role: trash, tags: ['trash']}
     - {role: unison, tags: ['unison']}
     - {role: yaml-ls, tags: ['yaml-ls']}
-    #- {role: zoxide, tags: ['zoxide']}
+    - {role: zoxide, tags: ['zoxide']}

@@ -10,7 +10,7 @@
     version_command: delta --version
     move_rules:
       - src_regex: delta-.*/delta
-        dst: "/usr/local/bin"
+        dst: "/usr/local/bin/delta"
   when: ansible_facts['system'] == "Linux"
 
 - name: Install delta for git (MacOS)

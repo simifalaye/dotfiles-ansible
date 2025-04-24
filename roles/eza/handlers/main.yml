@@ -1,0 +1,31 @@
+# vim: filetype=yaml.ansible
+
+- name: Install eza completions (Linux)
+  tags: [pkgs]
+  listen: "eza_installed"
+  become: true
+  quera.github.install_from_github:
+    repo: eza-community/eza
+    tag: latest
+    asset_regex: completions.*\.tar\.gz
+    move_rules:
+      - src_regex: .*completions.*/_eza
+        dst: "/usr/local/share/zsh/site-functions/_eza"
+      - src_regex: .*completions.*/eza
+        dst: "/usr/share/bash-completion/completions/eza"
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install eza manpages (Linux)
+  tags: [pkgs]
+  listen: "eza_installed"
+  become: true
+  quera.github.install_from_github:
+    repo: eza-community/eza
+    tag: latest
+    asset_regex: man.*\.tar\.gz
+    move_rules:
+      - src_regex: .*man.*/eza.1
+        dst: "/usr/local/share/man/man1/eza.1"
+      - src_regex: .*man.*/eza_colors.5
+        dst: "/usr/local/share/man/man5/eza_colors.5"
+  when: ansible_facts['system'] == "Linux"

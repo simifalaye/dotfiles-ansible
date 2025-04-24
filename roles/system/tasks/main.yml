@@ -42,3 +42,11 @@
     - "{{ ansible_env.HOME }}/.config"
     - "{{ ansible_env.HOME }}/.local"
     - "{{ ansible_env.HOME }}/.cache"
+
+- name: Ensure required directories
+  become: true
+  ensure_dirs:
+    dirs:
+      - path: /usr/local/share/man/man1
+      - path: /usr/local/share/man/man5
+      - path: /usr/local/share/man/man8

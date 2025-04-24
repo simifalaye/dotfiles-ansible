@@ -10,7 +10,8 @@
     version_command: eza --version
     move_rules:
       - src_regex: eza
-        dst: "/usr/local/bin"
+        dst: "/usr/local/bin/eza"
+  notify: "eza_installed"
   when: ansible_facts['system'] == "Linux"
 
 - name: Install eza (MacOS)

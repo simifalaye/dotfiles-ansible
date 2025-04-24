@@ -1,14 +1,8 @@
 #!/usr/bin/env python
-import subprocess
-
+import shutil
 
 def is_installed_filter(app_name):
-    try:
-        subprocess.check_call(["which", app_name])
-        return True
-    except subprocess.CalledProcessError:
-        return False
-
+    return shutil.which(app_name) is not None
 
 class FilterModule(object):
     def filters(self):

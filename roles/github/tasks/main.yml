@@ -1,18 +1,12 @@
 # vim: filetype=yaml.ansible
 
 - name: Install github cli (Linux)
-  tags: [pkgs]
   become: true
-  quera.github.install_from_github:
-    repo: cli/cli
-    tag: latest
-    asset_regex: gh_.*\.tar\.gz
-    version_command: gh --version
-    move_rules:
-      - src_regex: gh_.*/bin/gh
-        dst: "/usr/local/bin"
-      - src_regex: gh_.*/share/man/man1/.*
-        dst: "/usr/local/share/man/man1"
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - gh
+    state: present
   when: ansible_facts['system'] == "Linux"
 
 - name: Install github cli (MacOS)

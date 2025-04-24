@@ -10,7 +10,7 @@
     version_command: fzf --version
     move_rules:
       - src_regex: fzf
-        dst: "/usr/local/bin"
+        dst: "/usr/local/bin/fzf"
   when: ansible_facts['system'] == "Linux"
 
 - name: Install fzf

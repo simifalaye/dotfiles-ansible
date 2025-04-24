@@ -12,7 +12,7 @@
       - src_regex: zoxide
         dst: "/usr/local/bin"
       - src_regex: man/man1/.*
-        dst: "/usr/local/share/man/man1"
+        dst: "/usr/local/share/man/man1/"
       - src_regex: completions/zoxide.bash
         dst: "/usr/share/bash-completion/completions/zoxide"
       - src_regex: completions/_zoxide

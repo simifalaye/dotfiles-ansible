@@ -1,7 +1,17 @@
 # vim: filetype=yaml.ansible
 
+- name: Install htop (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - htop
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
 - name: Install htop
   tags: [pkgs]
   community.general.homebrew:
     name: htop
     state: present
+  when: ansible_facts['system'] == "Darwin"

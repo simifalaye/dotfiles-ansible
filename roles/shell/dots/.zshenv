@@ -12,9 +12,13 @@ export ZCACHEDIR=${ZCACHEDIR:-${XDG_CACHE_HOME:-$HOME/.cache}/zsh} && mkdir -p $
 # Setup location to store plugins
 export ZPLUGDIR="${ZDATADIR}/plugins" && mkdir -p ${ZPLUGDIR}
 
+# User completions path
+export ZUSERCOMP=${ZDATADIR}/completions && mkdir -p ${ZUSERCOMP}
+
 # Add your functions to your $fpath, so you can autoload them.
 fpath=(
   ${HOME}/.config/shrc/zshrc.d/functions
+  ${ZUSERCOMP}
   $fpath
 )
 
