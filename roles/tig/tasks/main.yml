@@ -1,10 +1,20 @@
 # vim: filetype=yaml.ansible
 
-- name: Install tig
+- name: Install tig (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - tig
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install tig (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: tig
     state: present
+  when: ansible_facts['system'] == "Darwin"
 
 - name: Install tig dotfiles
   tags: [dots, tig-dots]

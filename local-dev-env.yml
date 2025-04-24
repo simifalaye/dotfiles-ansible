@@ -6,6 +6,7 @@
     # Pre-reqs
     - {role: system, tags: ['system', 'bootstrap']}
     - {role: shell, tags: ['shell', 'bootstrap']}
+    - {role: git, tags: ['git', 'bootstrap']}
     - {role: homebrew, tags: ['homebrew', 'bootstrap']}
     - {role: node, tags: ['node', 'bootstrap']}
     - {role: python, tags: ['python', 'bootstrap']}
@@ -20,9 +21,11 @@
     - {role: bat, tags: ['bat']}
     - {role: bitwise, tags: ['bitwise']}
     - {role: black, tags: ['black']}
+    - {role: btop, tags: ['btop']}
     - {role: calc, tags: ['calc']}
     - {role: cheat, tags: ['cheat']}
     - {role: clang-format, tags: ['clang-format']}
+    - {role: clang-format, tags: ['clangd-ls']}
     - {role: cpplint, tags: ['cpplint']}
     - {role: delta, tags: ['delta']}
     - {role: editor-tools, tags: ['editor-tools']}
@@ -30,12 +33,10 @@
     - {role: eza, tags: ['eza']}
     - {role: fd, tags: ['fd']}
     - {role: fzf, tags: ['fzf']}
-    - {role: git, tags: ['git', 'bootstrap']}
     - {role: github, tags: ['github']}
     - {role: htop, tags: ['htop']}
     - {role: json-ls, tags: ['json-ls']}
     - {role: lazygit, tags: ['lazygit']}
-    - {role: llvm, tags: ['llvm']}
     - {role: lua-ls, tags: ['lua-ls']}
     - {role: marksman-ls, tags: ['marksman-ls']}
     - {role: neovim, tags: ['neovim']}

@@ -1,5 +1,21 @@
 # vim: filetype=yaml.ansible
 
+- name: Install git (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - git
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install git (MacOS)
+  tags: [pkgs]
+  community.general.homebrew:
+    name: git
+    state: present
+  when: ansible_facts['system'] == "Darwin"
+
 - name: Install git dotfiles
   tags: [dots, git-dots]
   link_dotfiles:

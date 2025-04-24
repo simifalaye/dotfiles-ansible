@@ -1,10 +1,27 @@
 # vim: filetype=yaml.ansible
 
-- name: Install neovim
+- name: Download nvim (Linux)
+  tags: [pkgs]
+  block:
+    - name: Get nvim package
+      quera.github.install_from_github:
+        repo: neovim/neovim
+        tag: latest
+        asset_regex: >-
+          nvim-linux.*\.tar\.gz
+        version_command: nvim --version | head -n 1
+        move_rules:
+          - src_regex: .*
+            dst: "/tmp/nvim"
+      notify: "nvim_downloaded"
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install neovim (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: neovim
     state: present
+  when: ansible_facts['system'] == "Darwin"
 
 - name: Install neovim for nodejs
   tags: [pkgs]

@@ -1,10 +1,21 @@
 # vim: filetype=yaml.ansible
 
-- name: Install nodejs
+- name: Install nodejs (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - nodejs
+      - npm
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install nodejs (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: node
     state: present
+  when: ansible_facts['system'] == "Darwin"
 
 - name: Install node dotfiles
   tags: [dots, node-dots]

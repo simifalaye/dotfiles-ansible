@@ -1,10 +1,18 @@
 # vim: filetype=yaml.ansible
 
-- name: Install trash
+- name: Install trash-cli (Linux)
+  tags: [pkgs]
+  community.general.pipx:
+    name: trash-cli
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install trash (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: trash
     state: present
+  when: ansible_facts['system'] == "Darwin"
 
 - name: Install trash dotfiles
   tags: [dots, trash-dots]

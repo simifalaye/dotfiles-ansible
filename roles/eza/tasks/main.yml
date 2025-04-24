@@ -1,10 +1,24 @@
 # vim: filetype=yaml.ansible
 
-- name: Install eza
+- name: Install eza (Linux)
+  tags: [pkgs]
+  become: true
+  quera.github.install_from_github:
+    repo: eza-community/eza
+    tag: latest
+    asset_regex: eza.*(?<!musl)\.tar\.gz
+    version_command: eza --version
+    move_rules:
+      - src_regex: eza
+        dst: "/usr/local/bin"
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install eza (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: eza
     state: present
+  when: ansible_facts['system'] == "Darwin"
 
 - name: Install eza dotfiles
   tags: [dots, eza-dots]

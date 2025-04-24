@@ -1,10 +1,20 @@
 # vim: filetype=yaml.ansible
 
+- name: Install direnv (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - direnv
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
 - name: Install direnv
   tags: [pkgs]
   community.general.homebrew:
     name: direnv
     state: present
+  when: ansible_facts['system'] == "Darwin"
 
 - name: Install direnv dotfiles
   tags: [dots, direnv-dots]

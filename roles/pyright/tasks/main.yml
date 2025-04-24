@@ -1,7 +1,15 @@
 # vim: filetype=yaml.ansible
 
-- name: Install Pyright
+- name: Install pyright static type checker lsp (Linux)
+  tags: [pkgs]
+  community.general.pipx:
+    name: pyright
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install Pyright (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: pyright
     state: present
+  when: ansible_facts['system'] == "Darwin"

@@ -1,5 +1,14 @@
 # vim: filetype=yaml.ansible
 
+- name: Install zsh (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - zsh
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
 - name: Get currently installed zsh path
   ansible.builtin.command: "which zsh"
   register: zsh_path

@@ -1,10 +1,20 @@
 # vim: filetype=yaml.ansible
 
-- name: Install elinks
+- name: Install elinks (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - elinks
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install elinks (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: felinks
     state: present
+  when: ansible_facts['system'] == "Darwin"
 
 - name: Install elinks dotfiles
   tags: [dots, elinks-dots]

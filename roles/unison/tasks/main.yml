@@ -1,7 +1,17 @@
 # vim: filetype=yaml.ansible
 
-- name: Install unison
+- name: Install unison (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - unison
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install unison (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: unison
     state: present
+  when: ansible_facts['system'] == "Darwin"

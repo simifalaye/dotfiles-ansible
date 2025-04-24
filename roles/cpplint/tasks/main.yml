@@ -1,7 +1,15 @@
 # vim: filetype=yaml.ansible
 
-- name: Install cpplint
+- name: Install cpplint linter (Linux)
+  tags: [pkgs]
+  community.general.pipx:
+    name: cpplint
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install cpplint (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: cpplint
     state: present
+  when: ansible_facts['system'] == "Darwin"

@@ -1,7 +1,17 @@
 # vim: filetype=yaml.ansible
 
-- name: Install Shellcheck
+- name: Install shellcheck (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - shellcheck
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install Shellcheck (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: shellcheck
     state: present
+  when: ansible_facts['system'] == "Darwin"

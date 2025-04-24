@@ -1,7 +1,15 @@
 # vim: filetype=yaml.ansible
 
-- name: Install Black Python Formatter
+- name: Install black python code formatter (Linux)
+  tags: [pkgs]
+  community.general.pipx:
+    name: black
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install Black Python Formatter (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: black
     state: present
+  when: ansible_facts['system'] == "Darwin"

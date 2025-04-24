@@ -1,7 +1,17 @@
 # vim: filetype=yaml.ansible
 
-- name: Install atool
+- name: Install atool (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - atool
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install atool (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: atool
     state: present
+  when: ansible_facts['system'] == "Darwin"

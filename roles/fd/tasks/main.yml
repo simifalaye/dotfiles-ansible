@@ -1,7 +1,27 @@
 # vim: filetype=yaml.ansible
 
-- name: Install fd (better find)
+- name: Install fd (better find) (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name: "{{ 'fd-find' if 'debian' in ansible_os_family.lower() else 'fd' }}"
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Create symbolic link to fd binary if fdfind is used
+  become: true
+  tags: [pkgs]
+  ansible.builtin.file:
+    src: /usr/bin/fdfind
+    dest: /usr/local/bin/fd
+    state: link
+  when:
+    - ansible_facts['os_family'] == "Debian"
+    - "'/usr/bin/fdfind' is file and '/usr/local/bin/fd' is not file"
+
+- name: Install fd (better find) (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: fd
     state: present
+  when: ansible_facts['system'] == "Darwin"

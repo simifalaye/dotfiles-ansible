@@ -1,7 +1,17 @@
 # vim: filetype=yaml.ansible
 
-- name: Install rsync
+- name: Install rsync (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - rsync
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install rsync (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: rsync
     state: present
+  when: ansible_facts['system'] == "Darwin"

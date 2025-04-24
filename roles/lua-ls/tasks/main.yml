@@ -1,7 +1,34 @@
 # vim: filetype=yaml.ansible
 
-- name: Install Lua Language Server
+- name: Install lua language server (Linux)
+  tags: [pkgs]
+  block:
+    - name: Create lua-language-server directory
+      ansible.builtin.file:
+        path: ~/.local/share/lua-language-server
+        state: directory
+        mode: '0775'
+    - name: Download and install lua-language-server directory
+      quera.github.install_from_github:
+        repo: LuaLS/lua-language-server
+        tag: latest
+        asset_regex: lua-language-server-.*(?<!musl)\.tar\.gz
+        asset_arch_mapping:
+          x86_64: "x64"
+        version_command: lua-language-server --version
+        move_rules:
+          - src_regex: .*
+            dst: ~/.local/share/lua-language-server
+    - name: Symlink lua-language-server binary
+      ansible.builtin.file:
+        src: ~/.local/share/lua-language-server/bin/lua-language-server
+        dest: ~/.local/bin/lua-language-server
+        state: link
+  when: not ('lua-language-server' | is_installed) and ansible_facts['system'] == "Linux"
+
+- name: Install Lua Language Server (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: lua-language-server
     state: present
+  when: ansible_facts['system'] == "Darwin"

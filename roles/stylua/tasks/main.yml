@@ -1,10 +1,25 @@
 # vim: filetype=yaml.ansible
 
-- name: Install Stylua
+- name: Install Stylua formatter (Linux)
+  become: true
+  tags: [pkgs]
+  quera.github.install_from_github:
+    repo: JohnnyMorganz/StyLua
+    tag: latest
+    asset_regex: stylua-.*(?<!musl)\.zip
+    version_command: stylua --version
+    move_rules:
+      - src_regex: .*
+        dst: /usr/local/bin/stylua
+        mode: '0755'
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install Stylua (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: stylua
     state: present
+  when: ansible_facts['system'] == "Darwin"
 
 - name: Install stylua dotfiles
   tags: [dots]

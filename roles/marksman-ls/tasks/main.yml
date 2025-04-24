@@ -1,7 +1,24 @@
 # vim: filetype=yaml.ansible
 
-- name: Install Marksman Language Server
+- name: Install marksman languague server (Linux)
+  become: true
+  tags: [pkgs]
+  quera.github.install_from_github:
+    repo: artempyanykh/marksman
+    tag: latest
+    asset_regex: marksman-.*
+    asset_arch_mapping:
+      x86_64: "x64"
+    version_command: marksman --version
+    move_rules:
+      - src_regex: .*
+        dst: /usr/local/bin/marksman
+        mode: '0755'
+  when: not ('marksman' | is_installed) and ansible_facts['system'] == "Linux"
+
+- name: Install Marksman Language Server (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: marksman
     state: present
+  when: ansible_facts['system'] == "Darwin"

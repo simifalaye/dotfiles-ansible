@@ -79,22 +79,6 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-step "Installing homebrew"
-if ! command -v brew >/dev/null; then
-  sub_step "Installing Homebrew package manager"
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  if test -r /opt/homebrew/bin/brew; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  elif test -r /usr/local/bin/brew; then
-    eval "$(/usr/local/bin/brew shellenv)"
-  elif test -r /home/linuxbrew/.linuxbrew/bin/brew; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-  else
-    abort "Homebrew install not found"
-  fi
-  success "Homebrew installed"
-fi
-
 step "Installing core dependencies"
 case "$(uname -s)" in
 Linux)
@@ -132,6 +116,18 @@ Linux)
   ;;
 Darwin)
   sub_step "Detected Darwin machine, installing core deps"
+  if ! command -v brew >/dev/null; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    if test -r /opt/homebrew/bin/brew; then
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    elif test -r /usr/local/bin/brew; then
+      eval "$(/usr/local/bin/brew shellenv)"
+    else
+      abort "Homebrew install not found"
+    fi
+    success "Homebrew installed"
+  fi
+
   brew install ansible git
   success "Installed core deps"
   ;;

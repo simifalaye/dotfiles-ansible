@@ -1,10 +1,20 @@
 # vim: filetype=yaml.ansible
 
-- name: Install tmux
+- name: Install tmux (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - tmux
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install tmux (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: tmux
     state: present
+  when: ansible_facts['system'] == "Darwin"
 
 - name: Install tmux dotfiles
   tags: [dots, tmux-dots]

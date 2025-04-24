@@ -1,10 +1,22 @@
 # vim: filetype=yaml.ansible
 
-- name: Install python
+- name: Install python (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - "{{ 'python' if 'arch' in ansible_distribution.lower() else 'python3' }}"
+      - "{{ 'python-pip' if 'arch' in ansible_distribution.lower() else 'python3-pip' }}"
+      - pipx
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install python (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: python
     state: present
+  when: ansible_facts['system'] == "Darwin"
 
 - name: Install python dotfiles
   tags: [dots, python-dots]

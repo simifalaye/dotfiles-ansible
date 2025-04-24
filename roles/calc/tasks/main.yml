@@ -1,10 +1,20 @@
 # vim: filetype=yaml.ansible
 
-- name: Install calc
+- name: Install calc (Linux)
+  become: true
+  tags: [pkgs]
+  ansible.builtin.package:
+    name:
+      - calc
+    state: present
+  when: ansible_facts['system'] == "Linux"
+
+- name: Install calc (MacOS)
   tags: [pkgs]
   community.general.homebrew:
     name: calc
     state: present
+  when: ansible_facts['system'] == "Darwin"
 
 - name: Install calc dotfiles
   tags: [dots, calc-dots]
