@@ -11,12 +11,14 @@
     move_rules:
       - src_regex: fzf
         dst: "/usr/local/bin"
+  when: ansible_facts['system'] == "Linux"
 
 - name: Install fzf
   tags: [pkgs]
   community.general.homebrew:
     name: fzf
     state: present
+  when: ansible_facts['system'] == "Darwin"
 
 - name: Install fzf dotfiles
   tags: [dots, fzf-dots]

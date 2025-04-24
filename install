@@ -6,16 +6,7 @@
 #  Main
 #-
 
-set -euo pipefail
+set -e
 
-# Prompt sudo so we don't have to ask-become-pass
-sudo -v
-
-# Run Ansible with or without TTY wrapper for Darwin
-if [[ "$(uname -s)" == "Darwin" ]]; then
-  echo "Running on macOS – using script to preserve sudo TTY"
-  script -q /dev/null ansible-playbook -i ./hosts local-dev-env.yml "$@"
-else
-  echo "Running on Linux"
-  ansible-playbook -i ./hosts local-dev-env.yml "$@"
-fi
+# Run ansible
+ansible-playbook -i ./hosts local-dev-env.yml --ask-become-pass "$@"

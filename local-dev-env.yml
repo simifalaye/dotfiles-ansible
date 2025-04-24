@@ -28,13 +28,12 @@
     - {role: clang-format, tags: ['clangd-ls']}
     - {role: cpplint, tags: ['cpplint']}
     - {role: delta, tags: ['delta']}
-    - {role: editor-tools, tags: ['editor-tools']}
     - {role: elinks, tags: ['elinks']}
     - {role: eza, tags: ['eza']}
     - {role: fd, tags: ['fd']}
     - {role: fzf, tags: ['fzf']}
-    - {role: github, tags: ['github']}
-    - {role: htop, tags: ['htop']}
+    #- {role: github, tags: ['github']}
+    #- {role: htop, tags: ['htop']}
     - {role: json-ls, tags: ['json-ls']}
     - {role: lazygit, tags: ['lazygit']}
     - {role: lua-ls, tags: ['lua-ls']}
@@ -53,4 +52,4 @@
     - {role: trash, tags: ['trash']}
     - {role: unison, tags: ['unison']}
     - {role: yaml-ls, tags: ['yaml-ls']}
-    - {role: zoxide, tags: ['zoxide']}
+    #- {role: zoxide, tags: ['zoxide']}
