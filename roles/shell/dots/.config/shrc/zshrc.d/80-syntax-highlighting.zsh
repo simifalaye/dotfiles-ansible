@@ -4,7 +4,7 @@
 #
 
 #
-# Plugin: zsh-syntax-highlighting
+# Plugin: fast-syntax-highlighting
 #
 
 # Abort if requirements are not met
@@ -12,11 +12,16 @@
 [[ -o interactive ]] || return 1
 
 # Install plugin
-plugin_dir=${ZPLUGDIR}/zsh-syntax-highlighting
+plugin_dir=${ZPLUGDIR}/fast-syntax-highlighting
 if [[ ! -e ${plugin_dir} ]]; then
-  git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${plugin_dir}
-  zcompile-many ${plugin_dir}/{zsh-syntax-highlighting.zsh,highlighters/*/*.zsh}
+  git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${plugin_dir}
+  zcompile-many ${plugin_dir}/{fast-syntax-highlighting.zsh,highlighters/*/*.zsh}
+
+  git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${plugin_dir}
+  mv -- ${plugin_dir}/{'→chroma','tmp'}
+  zcompile-many ${plugin_dir}/{fast*,.fast*,**/*.ch,**/*.zsh}
+  mv -- ${plugin_dir}/{'tmp','→chroma'}
 fi
 
 # Load plugin
-source ${plugin_dir}/zsh-syntax-highlighting.zsh
+source ${plugin_dir}/fast-syntax-highlighting.plugin.zsh
