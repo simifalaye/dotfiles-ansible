@@ -2,6 +2,18 @@
 
 - name: Install fzf
   tags: [pkgs]
+  become: true
+  quera.github.install_from_github:
+    repo: junegunn/fzf
+    tag: latest
+    asset_regex: fzf-.*\.tar\.gz
+    version_command: fzf --version
+    move_rules:
+      - src_regex: fzf
+        dst: "/usr/local/bin"
+
+- name: Install fzf
+  tags: [pkgs]
   community.general.homebrew:
     name: fzf
     state: present
