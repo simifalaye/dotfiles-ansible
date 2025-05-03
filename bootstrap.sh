@@ -87,23 +87,23 @@ Linux)
       sudo apt update
       sudo apt install software-properties-common
       sudo add-apt-repository --yes --update ppa:ansible/ansible
-      sudo apt install -y ansible git zsh xz-utils build-essential
+      sudo apt install -y ansible git zsh xz-utils build-essential wget curl
       success "Installed core deps"
     elif grep -q -E '(centos|rhel|fedora)' /etc/os-release; then
       sub_step "Detected CentOS/RHEL/Fedora machine, installing core deps"
       if [ -f /etc/centos-release ]; then
         sudo dnf install -y epel-release
       fi
-      sudo dnf install -y ansible git zsh
+      sudo dnf install -y ansible git zsh wget curl
       sudo dnf groupinstall -y 'Development Tools'
       success "Installed core deps"
     elif grep -q -E '(arch)' /etc/os-release; then
       sub_step "Detected Arch machine, installing core deps"
-      sudo pacman -S ansible git zsh base-devel
+      sudo pacman -S ansible git zsh base-devel wget curl
       success "Installed core deps"
     elif grep -q -E '(opensuse)' /etc/os-release; then
       sub_step "Detected SUSE machine, installing core deps"
-      sudo zypper install ansible git zsh
+      sudo zypper install ansible git zsh wget curl
       sudo zypper install -t pattern devel_basis
       success "Installed core deps"
     else
@@ -127,7 +127,7 @@ Darwin)
     success "Homebrew installed"
   fi
 
-  brew install ansible git
+  brew install ansible git wget
   success "Installed core deps"
   ;;
 *)

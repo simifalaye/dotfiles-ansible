@@ -14,9 +14,6 @@ italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
 bold_italic = { family = "JetBrainsMono Nerd Font", style = "Bold Italic" }
 size = 12
 
-[mouse]
-hide_when_typing = true
-
 [debug]
 # render_timer = false
 # persistent_logging = false

@@ -1,0 +1,8 @@
+# vim: filetype=yaml.ansible
+
+- name: Install scroll-reverser (MacOS)
+  tags: [pkgs]
+  community.general.homebrew:
+    name: scroll-reverser
+    state: present
+  when: ansible_facts['system'] == "Darwin"

@@ -3,7 +3,7 @@
 # - remote  enable when starting zsh over a SSH connection.
 # - always  both of the above.
 # Set to any other value to disable.
-export TMUX_AUTOSTART="${TMUX_AUTOSTART-local}"
+export TMUX_AUTOSTART="${TMUX_AUTOSTART-always}"
 
 # Define what to do when autostarting. Possible values are:
 # - background      do not prompt and run a regular shell.
@@ -22,7 +22,7 @@ export TMUX_DEFAULT_SESSION="${TMUX_DEFAULT_SESSION-main}"
 # In xterm (or terminals mimicking it), WINDOWID is set to 0 if the terminal is not
 # running in a X window (e.g. in a KDE application).
 #!/bin/sh
-[[ -z "${TMUX}" && -z "${NVIM}" && "${TERM}" != "linux" && "$(tty)" != /dev/tty[0-9]* ]] && valid_term=1
+[[ -z "${TMUX}" && -z "${NVIM}" && -z "${IN_ZELLIJ}" && "${TERM}" != "linux" && "$(tty)" != /dev/tty[0-9]* ]] && valid_term=1
 [[ -n "${SSH_TTY}" && ("${TMUX_AUTOSTART}" == "always" || "${TMUX_AUTOSTART}" == "remote") ]] && \
   valid_remote=true
 [[ -z "${SSH_TTY}" && ("${TMUX_AUTOSTART}" == "always" || "${TMUX_AUTOSTART}" == "local") ]] && \

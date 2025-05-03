@@ -42,6 +42,7 @@
     - {role: pyright, tags: ['pyright']}
     - {role: ripgrep, tags: ['ripgrep']}
     - {role: rsync, tags: ['rsync']}
+    - {role: scroll-reverser, tags: ['scroll-reverser']}
     - {role: shellcheck, tags: ['shellcheck']}
     - {role: shfmt, tags: ['shfmt']}
     - {role: stylua, tags: ['stylua']}
@@ -51,4 +52,5 @@
     - {role: trash, tags: ['trash']}
     - {role: unison, tags: ['unison']}
     - {role: yaml-ls, tags: ['yaml-ls']}
+    - {role: zellij, tags: ['zellij']}
     - {role: zoxide, tags: ['zoxide']}

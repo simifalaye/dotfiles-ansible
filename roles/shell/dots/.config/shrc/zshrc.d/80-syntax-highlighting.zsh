@@ -15,9 +15,6 @@
 plugin_dir=${ZPLUGDIR}/fast-syntax-highlighting
 if [[ ! -e ${plugin_dir} ]]; then
   git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${plugin_dir}
-  zcompile-many ${plugin_dir}/{fast-syntax-highlighting.zsh,highlighters/*/*.zsh}
-
-  git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${plugin_dir}
   mv -- ${plugin_dir}/{'→chroma','tmp'}
   zcompile-many ${plugin_dir}/{fast*,.fast*,**/*.ch,**/*.zsh}
   mv -- ${plugin_dir}/{'tmp','→chroma'}
